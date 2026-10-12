@@ -87,6 +87,19 @@ h3{font-size:16px;margin:22px 0 8px}
 .nowtag{display:inline-block;font-size:11px;background:var(--sea);color:#fff;border-radius:6px;padding:0 6px;margin-left:6px;vertical-align:2px}
 .ev button.more{all:unset;cursor:pointer;color:var(--sea);font-size:13px;margin-top:4px;display:inline-block}
 
+/* per-item map button + inline info */
+.ev{position:relative;padding-right:56px;min-height:52px}
+a.mapbtn{position:absolute;top:6px;right:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;width:44px;height:40px;border-radius:10px;background:var(--sea-soft);color:var(--sea);text-decoration:none;font-size:15px;line-height:1.1}
+a.mapbtn span{font-size:10px;font-weight:600}
+a.mapbtn:active{transform:scale(.95)}
+details.info{margin-top:6px}
+details.info summary{cursor:pointer;color:var(--sea);font-size:13px;list-style:none;display:inline-block}
+details.info summary::-webkit-details-marker{display:none}
+details.info summary:before{content:"▸ ";}
+details.info[open] summary:before{content:"▾ ";}
+details.info .kv{margin:8px 0}
+.sm{font-size:14px;margin:8px 0}
+
 /* venue */
 details.venue{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);margin:10px 0;box-shadow:var(--shadow);overflow:hidden}
 details.venue summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;align-items:center;gap:10px}
@@ -219,13 +232,36 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
   <h2>Day 1・11/5（四）落地</h2>
   <p class="theme">晚班機落地，Check-in 完直接去吃宵夜。</p>
   <ul class="tl">
-    <li data-t="19:40"><div class="t">19:40</div><div class="ev"><div class="what">✈️ 桃園 T2 起飛（NU308）</div><div class="d">JTA，台灣時間</div></div></li>
-    <li data-t="22:15"><div class="t">22:15</div><div class="ev"><div class="what">那霸落地</div></div></li>
-    <li data-t="23:00"><div class="t">~23:00</div><div class="ev"><div class="what">入境、提行李</div></div></li>
-    <li data-t="23:05"><div class="t">23:05</div><div class="ev"><div class="what">🚝 單軌 → 縣廳前</div><div class="d">約 10～14 分、¥270。或計程車約 15 分、¥2,000</div><div class="badges"><span class="b warn">末班車約 23:30</span></div></div></li>
-    <li data-t="23:20"><div class="t">23:20</div><div class="ev"><div class="what">🏨 Monterey La Soeur Check-in</div><div class="badges"><span class="b warn">最晚 24:00</span></div></div></li>
-    <li class="key" data-t="23:25"><div class="t">23:25</div><div class="ev"><div class="what">🍻 鶴亀合戦</div><div class="d">走路 3 分，週四開到 01:00</div><div class="badges"><span class="b warn">料理 L.O. 24:00</span><span class="b">飲料 L.O. 00:30</span></div></div></li>
-    <li data-t="25:00"><div class="t">01:00</div><div class="ev"><div class="what">走回飯店</div></div></li>
+    <li data-t="19:40" data-map="桃園國際機場第二航廈"><div class="t">19:40</div><div class="ev"><div class="what">✈️ 桃園 T2 起飛（NU308）</div><div class="d">JTA，台灣時間</div></div></li>
+    <li data-t="22:15" data-map="那覇空港 国際線ターミナル"><div class="t">22:15</div><div class="ev"><div class="what">那霸落地</div></div></li>
+    <li data-t="23:00" data-map="那覇空港 国際線ターミナル"><div class="t">~23:00</div><div class="ev"><div class="what">入境、提行李</div></div></li>
+    <li data-t="23:05" data-map="ゆいレール 那覇空港駅"><div class="t">23:05</div><div class="ev"><div class="what">🚝 單軌 → 縣廳前</div><div class="d">約 10～14 分、¥270。或計程車約 15 分、¥2,000</div><div class="badges"><span class="b warn">末班車約 23:30</span></div></div></li>
+    <li data-t="23:20" data-map="Hotel Monterey La Soeur Naha"><div class="t">23:20</div><div class="ev"><div class="what">🏨 Monterey La Soeur Check-in</div><div class="badges"><span class="b warn">最晚 24:00</span></div>
+      <details class="info"><summary>飯店資訊</summary>
+        <dl class="kv">
+          <dt>地址</dt><dd>那霸市松尾 1-1-2（國際通上）</dd>
+          <dt>車站</dt><dd>縣廳前站 步行 2 分</dd>
+          <dt>入／退房</dt><dd>15:00～24:00／11:00</dd>
+          <dt>其他</dt><dd>2026/4/3 新開幕，1 樓有便利商店</dd>
+        </dl>
+        <div class="note red"><p>🔴 已訂房，記得補通知：「NU308，11/5 22:15 抵達，深夜入住」</p></div>
+      </details></div></li>
+    <li class="key" data-t="23:25" data-map="鶴亀合戦 那覇 久茂地"><div class="t">23:25</div><div class="ev"><div class="what">🍻 鶴亀合戦</div><div class="d">走路 3 分，週四開到 01:00</div><div class="badges"><span class="b warn">料理 L.O. 24:00</span><span class="b">飲料 L.O. 00:30</span></div>
+      <details class="info"><summary>店家資訊</summary>
+        <div class="note sun"><p>⚠️ 店名是「<b>鶴亀</b>」不是「亀鶴」（つるかめ合戦），搜尋別打錯。</p></div>
+        <dl class="kv">
+          <dt>全名</dt><dd>海の幸と山の幸 鶴亀合戦</dd>
+          <dt>地址</dt><dd>那霸市久茂地 3-11-22 久我大樓 1F</dd>
+          <dt>月～木・日</dt><dd>17:00–翌 01:00（料理 L.O. 24:00、飲料 L.O. 00:30）</dd>
+          <dt>金・土・假日前</dt><dd>17:00–翌 03:00</dd>
+          <dt>公休</dt><dd>無</dd>
+          <dt>預算</dt><dd>約 ¥4,000～5,000／人</dd>
+          <dt>座位</dt><dd>70 席（吧台約 22），有 6 人包廂</dd>
+          <dt>注意</dt><dd>桌費 ¥330、未滿 20 歲不得入場</dd>
+        </dl>
+        <p class="sm"><b>招牌</b>：野菜卷豬肉（阿古豬）¥330／串 🐷、雞提燈 ¥385、無骨烤豬腳、炸島辣韭、海葡萄、塔可（¥875 起）、麩炒 ¥748、豆腐糕 ¥748</p>
+      </details></div></li>
+    <li data-t="25:00" data-map="Hotel Monterey La Soeur Naha"><div class="t">01:00</div><div class="ev"><div class="what">走回飯店</div></div></li>
   </ul>
 
   <div class="note red"><p>🔴 班機延誤就直接搭計程車（約 ¥2,000），不要賭 23:30 的末班單軌。</p></div>
@@ -240,40 +276,6 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
 01:00  打烊</pre>
   <div class="note red"><p>🔴 <b>坐下就一次把菜點完</b>，35 分鐘不夠慢慢想。</p><p>🔴 延誤 30 分以上就當「只喝酒」的場子，飲料點到 00:30。</p></div>
   <div class="note tip"><p>💡 週四晚上 70 席的店，走進去應該有位。想保險可線上訂 23:30，但延誤就會 no-show。</p></div>
-
-  <h3>📍 地點</h3>
-  <details class="venue">
-    <summary><span class="ic">🏨</span><span class="nm"><b>Hotel Monterey La Soeur 那霸</b><span>11/5–11/6・國際通上</span></span></summary>
-    <div class="vbody">
-      <dl class="kv">
-        <dt>地址</dt><dd>那霸市松尾 1-1-2</dd>
-        <dt>車站</dt><dd>縣廳前站 步行 2 分</dd>
-        <dt>機場→飯店</dt><dd>單軌 10～14 分 ¥270／計程車 15 分 ¥2,000</dd>
-        <dt>入／退房</dt><dd>15:00～24:00／11:00</dd>
-        <dt>其他</dt><dd>2026/4/3 新開幕，1 樓有便利商店</dd>
-      </dl>
-      <div class="note red"><p>🔴 已訂房，記得補通知：「NU308，11/5 22:15 抵達，深夜入住」</p></div>
-      <div class="acts"><a class="btn primary" data-map="Hotel Monterey La Soeur Naha">📍 地圖</a></div>
-    </div>
-  </details>
-  <details class="venue">
-    <summary><span class="ic">🍻</span><span class="nm"><b>鶴亀合戦</b><span>深夜居酒屋・縣廳前 3 分</span></span></summary>
-    <div class="vbody">
-      <div class="note sun"><p>⚠️ 店名是「<b>鶴亀</b>」不是「亀鶴」（つるかめ合戦），搜尋別打錯。</p></div>
-      <dl class="kv">
-        <dt>全名</dt><dd>海の幸と山の幸 鶴亀合戦</dd>
-        <dt>地址</dt><dd>那霸市久茂地 3-11-22 久我大樓 1F</dd>
-        <dt>月～木・日</dt><dd>17:00–翌 01:00（料理 L.O. 24:00、飲料 L.O. 00:30）</dd>
-        <dt>金・土・假日前</dt><dd>17:00–翌 03:00</dd>
-        <dt>公休</dt><dd>無</dd>
-        <dt>預算</dt><dd>約 ¥4,000～5,000／人</dd>
-        <dt>座位</dt><dd>70 席（吧台約 22），有 6 人包廂</dd>
-        <dt>注意</dt><dd>桌費 ¥330、未滿 20 歲不得入場</dd>
-      </dl>
-      <p style="font-size:14px;margin:8px 0"><b>招牌</b>：野菜卷豬肉（阿古豬）¥330／串 🐷、雞提燈 ¥385、無骨烤豬腳、炸島辣韭、海葡萄、塔可（¥875 起）、麩炒 ¥748、豆腐糕 ¥748</p>
-      <div class="acts"><a class="btn primary" data-map="鶴亀合戦 那覇 久茂地">📍 地圖</a></div>
-    </div>
-  </details>
 </section>
 
 <!-- ========== DAY 2 ========== -->
@@ -281,49 +283,39 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
   <h2>Day 2・11/6（五）法餐 × 壺屋 × 居酒屋</h2>
   <p class="theme">先北上吃法餐，再南下散步，晚上在飯店旁邊慢慢喝。</p>
   <ul class="tl">
-    <li data-t="09:30"><div class="t">09:30</div><div class="ev"><div class="what">悠閒起床，附近吃早餐</div></div></li>
-    <li data-t="10:30"><div class="t">10:30</div><div class="ev"><div class="what">🚝 縣廳前 → おもろまち</div><div class="d">單軌約 10 分</div></div></li>
-    <li data-t="10:45"><div class="t">10:45</div><div class="ev"><div class="what">DFS Galleria／Naha Main Place 隨意逛</div></div></li>
-    <li class="key" data-t="11:30"><div class="t">11:30</div><div class="ev"><div class="what">🍷 ビストロモンマルトル</div><div class="badges"><span class="b ok">✅ 已訂</span><span class="b warn">L.O. 14:00</span></div></div></li>
-    <li data-t="13:30"><div class="t">13:30</div><div class="ev"><div class="what">🚝 おもろまち → 牧志</div></div></li>
-    <li data-t="14:00"><div class="t">14:00</div><div class="ev"><div class="what">🏺 壺屋燒物通 散步</div><div class="d">陶器老街、石板路，比國際通安靜很多</div><div class="acts"><a class="btn" data-map="壺屋やちむん通り">📍 地圖</a></div></div></li>
-    <li data-t="15:30"><div class="t">15:30</div><div class="ev"><div class="what">浮島通／新天堂通</div><div class="d">國際通南側巷弄，選物店、咖啡廳</div></div></li>
-    <li data-t="16:30"><div class="t">16:30</div><div class="ev"><div class="what">回飯店休息</div></div></li>
-    <li class="key" data-t="19:00"><div class="t">19:00</div><div class="ev"><div class="what">🍻 アゲサワ</div><div class="d">炸物小吃居酒屋，週五開到 01:00</div></div></li>
-    <li data-t="22:00"><div class="t">22:00~</div><div class="ev"><div class="what">走路回飯店（3 分）</div></div></li>
+    <li data-t="09:30" data-map="Hotel Monterey La Soeur Naha"><div class="t">09:30</div><div class="ev"><div class="what">悠閒起床，附近吃早餐</div></div></li>
+    <li data-t="10:30" data-map="ゆいレール 県庁前駅"><div class="t">10:30</div><div class="ev"><div class="what">🚝 縣廳前 → おもろまち</div><div class="d">單軌約 10 分</div></div></li>
+    <li data-t="10:45" data-map="Tギャラリア 沖縄 by DFS"><div class="t">10:45</div><div class="ev"><div class="what">DFS Galleria／Naha Main Place 隨意逛</div></div></li>
+    <li class="key" data-t="11:30" data-map="ビストロモンマルトル 那覇 真嘉比"><div class="t">11:30</div><div class="ev"><div class="what">🍷 ビストロモンマルトル</div><div class="badges"><span class="b ok">✅ 已訂</span><span class="b warn">L.O. 14:00</span></div>
+      <details class="info"><summary>店家資訊</summary>
+        <dl class="kv">
+          <dt>地址</dt><dd>那霸市真嘉比 1-1-3 エリタージュK 1F</dd>
+          <dt>交通</dt><dd>おもろまち站 步行 1 分</dd>
+          <dt>營業</dt><dd>火～日 11:30–15:00（L.O. 14:00）／18:00–23:00</dd>
+          <dt>公休</dt><dd>週一（11/6 週五 OK）</dd>
+          <dt>預算</dt><dd>午 ¥4,000～4,999</dd>
+        </dl>
+      </details></div></li>
+    <li data-t="13:30" data-map="ゆいレール 牧志駅"><div class="t">13:30</div><div class="ev"><div class="what">🚝 おもろまち → 牧志</div></div></li>
+    <li data-t="14:00" data-map="壺屋やちむん通り"><div class="t">14:00</div><div class="ev"><div class="what">🏺 壺屋燒物通 散步</div><div class="d">陶器老街、石板路，比國際通安靜很多</div></div></li>
+    <li data-t="15:30" data-map="浮島通り 那覇"><div class="t">15:30</div><div class="ev"><div class="what">浮島通／新天堂通</div><div class="d">國際通南側巷弄，選物店、咖啡廳</div></div></li>
+    <li data-t="16:30" data-map="Hotel Monterey La Soeur Naha"><div class="t">16:30</div><div class="ev"><div class="what">回飯店休息</div></div></li>
+    <li class="key" data-t="19:00" data-map="アゲサワ 那覇 久茂地"><div class="t">19:00</div><div class="ev"><div class="what">🍻 アゲサワ</div><div class="d">炸物小吃居酒屋，週五開到 01:00</div>
+      <details class="info"><summary>店家資訊</summary>
+        <dl class="kv">
+          <dt>地址</dt><dd>那霸市久茂地 3-3-3 小林大樓 1F</dd>
+          <dt>交通</dt><dd>縣廳前站 步行 3 分（飯店也 3 分）</dd>
+          <dt>11/6 週五</dt><dd>15:00–翌 01:00</dd>
+          <dt>預算</dt><dd>約 ¥3,000～3,999／人</dd>
+          <dt>類型</dt><dd>居酒屋、炸雞、炸物</dd>
+        </dl>
+        <p class="sm">接在法餐午餐後面剛好，阿古豬留給 Day 3。喝多了直接走回飯店。</p>
+        <div class="note sun"><p>想續攤：榮町市場（安里站）是在地人的深夜小店聚落。⚠️ 具體店家還沒查證。</p></div>
+      </details></div></li>
+    <li data-t="22:00" data-map="Hotel Monterey La Soeur Naha"><div class="t">22:00~</div><div class="ev"><div class="what">走路回飯店（3 分）</div></div></li>
   </ul>
   <div class="note sun"><p>⚠️ <b>おもろまち在牧志再往北兩站</b>，不在壺屋旁邊。順序一定是先北上吃飯，再南下逛壺屋。</p></div>
   <div class="note tip"><p>💡 下午壺屋那段用走的。午餐 13:30 結束、晚餐 19:00，中間 5 個半小時。</p></div>
-
-  <h3>📍 地點</h3>
-  <details class="venue">
-    <summary><span class="ic">🍷</span><span class="nm"><b>ビストロモンマルトル</b><span>午餐 11:30 ✅ 已訂</span></span></summary>
-    <div class="vbody">
-      <dl class="kv">
-        <dt>地址</dt><dd>那霸市真嘉比 1-1-3 エリタージュK 1F</dd>
-        <dt>交通</dt><dd>おもろまち站 步行 1 分</dd>
-        <dt>營業</dt><dd>火～日 11:30–15:00（L.O. 14:00）／18:00–23:00</dd>
-        <dt>公休</dt><dd>週一（11/6 週五 OK）</dd>
-        <dt>預算</dt><dd>午 ¥4,000～4,999</dd>
-      </dl>
-      <div class="acts"><a class="btn primary" data-map="ビストロモンマルトル 那覇 真嘉比">📍 地圖</a></div>
-    </div>
-  </details>
-  <details class="venue">
-    <summary><span class="ic">🍻</span><span class="nm"><b>アゲサワ</b><span>晚餐 19:00・不需訂位</span></span></summary>
-    <div class="vbody">
-      <dl class="kv">
-        <dt>地址</dt><dd>那霸市久茂地 3-3-3 小林大樓 1F</dd>
-        <dt>交通</dt><dd>縣廳前站 步行 3 分（飯店也 3 分）</dd>
-        <dt>11/6 週五</dt><dd>15:00–翌 01:00</dd>
-        <dt>預算</dt><dd>約 ¥3,000～3,999／人</dd>
-        <dt>類型</dt><dd>居酒屋、炸雞、炸物</dd>
-      </dl>
-      <p style="font-size:14px">接在法餐午餐後面剛好，阿古豬留給 Day 3。喝多了直接走回飯店。</p>
-      <div class="note sun"><p>想續攤：榮町市場（安里站）是在地人的深夜小店聚落。⚠️ 具體店家還沒查證。</p></div>
-      <div class="acts"><a class="btn primary" data-map="アゲサワ 那覇 久茂地">📍 地圖</a></div>
-    </div>
-  </details>
 </section>
 
 <!-- ========== DAY 3 ========== -->
@@ -337,100 +329,81 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
   </div>
 
   <ul class="tl">
-    <li data-t="09:30"><div class="t">09:30</div><div class="ev"><div class="what">起床</div></div></li>
-    <li class="key" data-t="09:45"><div class="t">09:45</div><div class="ev"><div class="what">🍙 ポーたま 牧志市場店</div><div class="d">飯店走路 8～10 分</div><div class="badges"><span class="b warn">不可預約・可能排 15～20 分</span></div><div class="acts"><a class="btn" data-map="ポーたま 牧志市場店">📍 地圖</a></div></div></li>
-    <li data-t="10:40"><div class="t">10:40</div><div class="ev"><div class="what">回飯店整理</div></div></li>
-    <li data-t="11:00"><div class="t">11:00</div><div class="ev"><div class="what">🏨 退房</div></div></li>
-    <li data-t="11:05"><div class="t">11:05</div><div class="ev"><div class="what">🚝 縣廳前 → 赤嶺站</div><div class="d">往機場方向，機場前一站，約 10 分</div></div></li>
-    <li data-t="11:20"><div class="t">11:20</div><div class="ev"><div class="what">🚐 赤嶺站南口 搭 ROYAL 接駁</div><div class="badges"><span class="b warn">需事前聯繫</span></div></div></li>
-    <li data-t="11:35"><div class="t">11:35</div><div class="ev"><div class="what">門市辦手續、取車</div><div class="d">駕照正本＋日文譯本</div></div></li>
-    <li class="key" data-t="12:00"><div class="t">12:00</div><div class="ev"><div class="what">🚗 出發</div><div class="d">座安在豊見城，已經在南邊</div></div></li>
+    <li data-t="09:30" data-map="Hotel Monterey La Soeur Naha"><div class="t">09:30</div><div class="ev"><div class="what">起床</div></div></li>
+    <li class="key" data-t="09:45" data-map="ポーたま 牧志市場店"><div class="t">09:45</div><div class="ev"><div class="what">🍙 ポーたま 牧志市場店</div><div class="d">飯店走路 8～10 分</div><div class="badges"><span class="b warn">不可預約・可能排 15～20 分</span></div></div></li>
+    <li data-t="10:40" data-map="Hotel Monterey La Soeur Naha"><div class="t">10:40</div><div class="ev"><div class="what">回飯店整理</div></div></li>
+    <li data-t="11:00" data-map="Hotel Monterey La Soeur Naha"><div class="t">11:00</div><div class="ev"><div class="what">🏨 退房</div></div></li>
+    <li data-t="11:05" data-map="ゆいレール 県庁前駅"><div class="t">11:05</div><div class="ev"><div class="what">🚝 縣廳前 → 赤嶺站</div><div class="d">往機場方向，機場前一站，約 10 分</div></div></li>
+    <li data-t="11:20" data-map="ゆいレール 赤嶺駅"><div class="t">11:20</div><div class="ev"><div class="what">🚐 赤嶺站南口 搭 ROYAL 接駁</div><div class="badges"><span class="b warn">需事前聯繫</span></div></div></li>
+    <li data-t="11:35" data-map="ROYALレンタカー 豊見城店 座安315-7"><div class="t">11:35</div><div class="ev"><div class="what">🚗 ROYAL レンタカー 取車</div><div class="d">駕照正本＋日文譯本</div>
+      <details class="info"><summary>租車資訊</summary>
+        <dl class="kv">
+          <dt>地址</dt><dd>〒901-0221 豊見城市座安 315-7</dd>
+          <dt>營業</dt><dd>⚠️ 官網 09:00–20:00，另一來源 09:00–19:00，待確認</dd>
+          <dt>赤嶺接駁</dt><dd>有，赤嶺站「南口」上車，需事前聯繫</dd>
+          <dt>機場接駁</dt><dd>免費，機場出發末班 19:30</dd>
+          <dt>租期</dt><dd>贊助，超過 24h 無妨</dd>
+        </dl>
+        <div class="note red"><p>🔴 台灣駕照要帶<b>正本＋監理所日文譯本</b>，缺一不可。</p></div>
+      </details>
+      <div class="acts"><a class="btn" href="tel:0989875848">📞 098-987-5848</a><a class="btn" href="https://line.me/R/ti/p/@665osbnu" target="_blank" rel="noopener">💬 LINE</a></div></div></li>
+    <li class="key" data-t="12:00" data-map="ROYALレンタカー 豊見城店 座安315-7"><div class="t">12:00</div><div class="ev"><div class="what">🚗 出發</div><div class="d">座安在豊見城，已經在南邊</div></div></li>
   </ul>
 
   <ul class="tl" data-plan3-show="a">
-    <li data-t="12:40"><div class="t">12:40</div><div class="ev"><div class="what">🐱 奧武島 繞島看貓</div><div class="d">周長 1.7km 走路繞完，免費停車</div><div class="acts"><a class="btn" data-map="奥武島 南城市">📍 地圖</a></div></div></li>
-    <li class="key" data-t="13:00"><div class="t">13:00</div><div class="ev"><div class="what">🍤 中本天婦羅</div><div class="d">10:30–18:00，週四公休（11/7 週六 OK）。另有大城天婦羅</div><div class="acts"><a class="btn" data-map="中本鮮魚てんぷら店 奥武島">📍 地圖</a></div></div></li>
-    <li data-t="13:55"><div class="t">13:55</div><div class="ev"><div class="what">→ 新原海灘（約 10 分）</div></div></li>
-    <li class="key" data-t="14:05"><div class="t">14:05</div><div class="ev"><div class="what">🏖️ 新原海灘 散步踩水</div><div class="d">停車約 30 台 ¥500／日</div><div class="acts"><a class="btn" data-map="新原ビーチ">📍 地圖</a></div></div></li>
-    <li data-t="15:05"><div class="t">15:05</div><div class="ev"><div class="what">→ 瀨長島（約 40 分）</div></div></li>
-    <li class="key" data-t="15:45"><div class="t">15:45</div><div class="ev"><div class="what">♨️ 瀨長島飯店 Check-in</div><div class="d">露天風呂付客室，15:00 起可入住</div></div></li>
+    <li data-t="12:40" data-map="奥武島 南城市"><div class="t">12:40</div><div class="ev"><div class="what">🐱 奧武島 繞島看貓</div><div class="d">周長 1.7km 走路繞完，免費停車</div></div></li>
+    <li class="key" data-t="13:00" data-map="中本鮮魚てんぷら店 奥武島"><div class="t">13:00</div><div class="ev"><div class="what">🍤 中本天婦羅</div><div class="d">10:30–18:00，週四公休（11/7 週六 OK）。另有大城天婦羅</div></div></li>
+    <li data-t="13:55" data-map="新原ビーチ"><div class="t">13:55</div><div class="ev"><div class="what">→ 新原海灘（約 10 分）</div></div></li>
+    <li class="key" data-t="14:05" data-map="新原ビーチ"><div class="t">14:05</div><div class="ev"><div class="what">🏖️ 新原海灘 散步踩水</div><div class="d">停車約 30 台 ¥500／日</div>
+      <details class="info"><summary>海灘資訊</summary>
+        <dl class="kv">
+          <dt>地址</dt><dd>南城市玉城百名 1599-6</dd>
+          <dt>玻璃船</dt><dd>約 20 分，大人 ¥2,200～2,500，09:00–16:00，先打電話確認</dd>
+        </dl>
+      </details>
+      <div class="acts"><a class="btn" href="tel:0989481103">📞 玻璃船 098-948-1103</a></div></div></li>
+    <li data-t="15:05" data-map="琉球温泉 瀬長島ホテル"><div class="t">15:05</div><div class="ev"><div class="what">→ 瀨長島（約 40 分）</div></div></li>
+    <li class="key" data-t="15:45" data-map="琉球温泉 瀬長島ホテル"><div class="t">15:45</div><div class="ev"><div class="what">♨️ 瀨長島飯店 Check-in</div><div class="d">露天風呂付客室，15:00 起可入住</div></div></li>
   </ul>
   <ul class="tl" data-plan3-show="b" hidden>
-    <li class="key" data-t="12:40"><div class="t">12:40</div><div class="ev"><div class="what">🏖️ 新原海灘 散步踩水，慢慢待</div><div class="acts"><a class="btn" data-map="新原ビーチ">📍 地圖</a></div></div></li>
-    <li data-t="13:30"><div class="t">13:30</div><div class="ev"><div class="what">☕ 浜辺の茶屋</div><div class="d">南城市玉城字玉城 2-1。週六 08:00–19:00（L.O. 18:00），停車 30 台</div><div class="acts"><a class="btn" data-map="浜辺の茶屋 南城市">📍 地圖</a><a class="btn" href="tel:0989482073">📞 098-948-2073</a></div></div></li>
-    <li data-t="14:40"><div class="t">14:40</div><div class="ev"><div class="what">知念岬公園 或 繼續耍廢</div><div class="d">免費，三面環海的草地岬角</div></div></li>
-    <li data-t="15:10"><div class="t">15:10</div><div class="ev"><div class="what">→ 瀨長島</div></div></li>
-    <li class="key" data-t="15:50"><div class="t">15:50</div><div class="ev"><div class="what">♨️ Check-in，先泡一次湯</div></div></li>
+    <li class="key" data-t="12:40" data-map="新原ビーチ"><div class="t">12:40</div><div class="ev"><div class="what">🏖️ 新原海灘 散步踩水，慢慢待</div><div class="d">停車約 30 台 ¥500／日</div></div></li>
+    <li data-t="13:30" data-map="浜辺の茶屋 南城市"><div class="t">13:30</div><div class="ev"><div class="what">☕ 浜辺の茶屋</div><div class="d">南城市玉城字玉城 2-1。週六 08:00–19:00（L.O. 18:00），停車 30 台</div><div class="acts"><a class="btn" href="tel:0989482073">📞 098-948-2073</a></div></div></li>
+    <li data-t="14:40" data-map="知念岬公園"><div class="t">14:40</div><div class="ev"><div class="what">知念岬公園 或 繼續耍廢</div><div class="d">免費，三面環海的草地岬角</div></div></li>
+    <li data-t="15:10" data-map="琉球温泉 瀬長島ホテル"><div class="t">15:10</div><div class="ev"><div class="what">→ 瀨長島</div></div></li>
+    <li class="key" data-t="15:50" data-map="琉球温泉 瀬長島ホテル"><div class="t">15:50</div><div class="ev"><div class="what">♨️ Check-in，先泡一次湯</div></div></li>
   </ul>
 
   <ul class="tl">
-    <li data-t="17:15"><div class="t">17:15</div><div class="ev"><div class="what">走到 ウミカジテラス</div></div></li>
-    <li class="key" data-t="17:30"><div class="t">17:30</div><div class="ev"><div class="what">🍷 POSILLIPO 露台席・🐷 阿古豬</div><div class="badges"><span class="b ok">✅ 已訂</span><span class="b">2.5 小時制</span></div></div></li>
-    <li class="key" data-t="17:44"><div class="t">17:44</div><div class="ev"><div class="what">🌅 日落（就在桌邊）</div></div></li>
-    <li data-t="20:00"><div class="t">20:00</div><div class="ev"><div class="what">離席 → 散步、看夜間光雕投影</div></div></li>
-    <li data-t="20:30"><div class="t">20:30</div><div class="ev"><div class="what">♨️ 回房泡露天風呂</div></div></li>
+    <li data-t="17:15" data-map="瀬長島ウミカジテラス"><div class="t">17:15</div><div class="ev"><div class="what">走到 ウミカジテラス</div></div></li>
+    <li class="key" data-t="17:30" data-map="POSILLIPO cucina meridionale 瀬長島"><div class="t">17:30</div><div class="ev"><div class="what">🍷 POSILLIPO 露台席・🐷 阿古豬</div><div class="badges"><span class="b ok">✅ 已訂</span><span class="b">2.5 小時制</span></div>
+      <details class="info"><summary>店家資訊・菜單</summary>
+        <dl class="kv">
+          <dt>地址</dt><dd>豊見城市瀬長 174-5（ウミカジテラス）</dd>
+          <dt>營業</dt><dd>每日 11:30–22:00 無休（料理 L.O. 21:30）</dd>
+          <dt>用餐</dt><dd>17:00 後 2.5 小時制 → 坐到 20:00</dd>
+          <dt>座位</dt><dd>201 席，露台 86 席</dd>
+          <dt>預算</dt><dd>晚餐約 ¥5,000～8,000／人</dd>
+          <dt>注意</dt><dd>17:00 後有桌費；下雨或強風改店內座位</dd>
+        </dl>
+        <table class="t" style="margin:6px 0 4px">
+          <tr><th>菜名</th><th>價格</th></tr>
+          <tr><td><b>帶骨琉球元豚 阿古豬里肌 炭火燒</b><br><span style="font-size:12px;color:var(--ink-2)">骨付き琉球元豚 あぐーロースの炭火焼き</span></td><td><b>¥3,800</b></td></tr>
+          <tr><td>蒜香香草醋 烤雞</td><td>¥2,500</td></tr>
+          <tr><td>縣產旗魚 起司麵包粉烤 開心果醬</td><td>¥2,500</td></tr>
+          <tr><td>鬼手長蝦尾 炙烤</td><td>¥850</td></tr>
+        </table>
+        <div class="note red"><p>🔴 <b>阿古豬點兩份</b>（一份是一人份），¥7,600 還是比燒肉兩人 ¥18,000 便宜一半以上。</p></div>
+        <div class="note tip"><p>💡 週六晚上會熱鬧，不是安靜的小店。安靜留給回房泡湯。龍神之湯大眾池開到 24:00，但男女分浴、人多。</p></div>
+      </details>
+      <div class="acts"><a class="btn" href="tel:0988511101">📞 098-851-1101</a></div></div></li>
+    <li class="key" data-t="17:44" data-map="POSILLIPO cucina meridionale 瀬長島"><div class="t">17:44</div><div class="ev"><div class="what">🌅 日落（就在桌邊）</div></div></li>
+    <li data-t="20:00" data-map="瀬長島ウミカジテラス"><div class="t">20:00</div><div class="ev"><div class="what">離席 → 散步、看夜間光雕投影</div></div></li>
+    <li data-t="20:30" data-map="琉球温泉 瀬長島ホテル"><div class="t">20:30</div><div class="ev"><div class="what">♨️ 回房泡露天風呂</div></div></li>
   </ul>
 
   <div class="note ok" data-plan3-show="a"><p>✅ <b>為什麼留奧武島</b>：①它就是你的午餐，南部那帶沒有現成正餐（浜辺の茶屋是咖啡廳）②到新原海灘只要 10 分，砍掉也省不到車程 ③這是一開始就想去的貓島。</p></div>
   <div class="note red" data-plan3-show="b" hidden><p>⚠️ 這樣午餐只有咖啡廳輕食，晚餐 17:30 才開始，中間會餓。</p></div>
   <div class="note sun"><p>🍷 晚餐喝酒 OK，隔天 10:00 要開車。回房別續攤喝到半夜。</p></div>
-
-  <h3>📍 地點</h3>
-  <details class="venue">
-    <summary><span class="ic">🍷</span><span class="nm"><b>POSILLIPO cucina meridionale</b><span>17:30 露台席 ✅・阿古豬那一餐</span></span></summary>
-    <div class="vbody">
-      <dl class="kv">
-        <dt>地址</dt><dd>豊見城市瀬長 174-5（ウミカジテラス）</dd>
-        <dt>營業</dt><dd>每日 11:30–22:00 無休（料理 L.O. 21:30）</dd>
-        <dt>用餐</dt><dd>17:00 後 2.5 小時制 → 坐到 20:00</dd>
-        <dt>座位</dt><dd>201 席，露台 86 席</dd>
-        <dt>預算</dt><dd>晚餐約 ¥5,000～8,000／人</dd>
-        <dt>注意</dt><dd>17:00 後有桌費；下雨或強風改店內座位</dd>
-      </dl>
-      <table class="t" style="margin:6px 0 4px">
-        <tr><th>菜名</th><th>價格</th></tr>
-        <tr><td><b>帶骨琉球元豚 阿古豬里肌 炭火燒</b><br><span style="font-size:12px;color:var(--ink-2)">骨付き琉球元豚 あぐーロースの炭火焼き</span></td><td><b>¥3,800</b></td></tr>
-        <tr><td>蒜香香草醋 烤雞</td><td>¥2,500</td></tr>
-        <tr><td>縣產旗魚 起司麵包粉烤 開心果醬</td><td>¥2,500</td></tr>
-        <tr><td>鬼手長蝦尾 炙烤</td><td>¥850</td></tr>
-      </table>
-      <div class="note red"><p>🔴 <b>阿古豬點兩份</b>（一份是一人份），¥7,600 還是比燒肉兩人 ¥18,000 便宜一半以上。</p></div>
-      <div class="note tip"><p>💡 週六晚上會熱鬧，不是安靜的小店。安靜留給回房泡湯。龍神之湯大眾池開到 24:00，但男女分浴、人多。</p></div>
-      <div class="acts"><a class="btn primary" data-map="POSILLIPO cucina meridionale 瀬長島">📍 地圖</a><a class="btn" href="tel:0988511101">📞 098-851-1101</a></div>
-    </div>
-  </details>
-  <details class="venue">
-    <summary><span class="ic">♨️</span><span class="nm"><b>琉球溫泉 瀨長島飯店</b><span>11/7・露天風呂付客室</span></span></summary>
-    <div class="vbody">
-      <dl class="kv"><dt>入住</dt><dd>15:00 起</dd><dt>房型</dt><dd>露天風呂付客室</dd></dl>
-      <div class="acts"><a class="btn primary" data-map="琉球温泉 瀬長島ホテル">📍 地圖</a></div>
-    </div>
-  </details>
-  <details class="venue">
-    <summary><span class="ic">🏖️</span><span class="nm"><b>新原海灘</b><span>白沙淺灘・玻璃船</span></span></summary>
-    <div class="vbody">
-      <dl class="kv">
-        <dt>地址</dt><dd>南城市玉城百名 1599-6</dd>
-        <dt>停車</dt><dd>約 30 台，¥500／日</dd>
-        <dt>玻璃船</dt><dd>約 20 分，大人 ¥2,200～2,500，09:00–16:00，先打電話確認</dd>
-      </dl>
-      <div class="acts"><a class="btn primary" data-map="新原ビーチ">📍 地圖</a><a class="btn" href="tel:0989481103">📞 098-948-1103</a></div>
-    </div>
-  </details>
-  <details class="venue" id="royal">
-    <summary><span class="ic">🚗</span><span class="nm"><b>ROYAL レンタカー 豊見城店</b><span>贊助・租期超過 24h 無妨</span></span></summary>
-    <div class="vbody">
-      <dl class="kv">
-        <dt>地址</dt><dd>〒901-0221 豊見城市座安 315-7</dd>
-        <dt>營業</dt><dd>⚠️ 官網 09:00–20:00，另一來源 09:00–19:00，待確認</dd>
-        <dt>赤嶺接駁</dt><dd>有，赤嶺站「南口」上車，需事前聯繫</dd>
-        <dt>機場接駁</dt><dd>免費，機場出發末班 19:30</dd>
-      </dl>
-      <div class="note ok"><p>🎯 座安在豊見城，離瀨長島、豊崎、機場都很近。Day 3 取車就在南邊，Day 4 還車不用開回那霸。</p></div>
-      <div class="note red"><p>🔴 台灣駕照要帶<b>正本＋監理所日文譯本</b>，缺一不可。</p></div>
-      <div class="acts"><a class="btn primary" data-map="ROYALレンタカー 豊見城店 座安315-7">📍 地圖</a><a class="btn" href="tel:0989875848">📞 098-987-5848</a><a class="btn" href="https://line.me/R/ti/p/@665osbnu" target="_blank" rel="noopener">💬 LINE</a></div>
-    </div>
-  </details>
 </section>
 
 <!-- ========== DAY 4 ========== -->
@@ -444,29 +417,29 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
   </div>
 
   <ul class="tl" data-plan4-show="a">
-    <li data-t="08:00"><div class="t">08:00</div><div class="ev"><div class="what">飯店早餐</div></div></li>
-    <li data-t="09:00"><div class="t">09:00</div><div class="ev"><div class="what">♨️ 最後泡一次湯</div></div></li>
-    <li data-t="10:00"><div class="t">10:00</div><div class="ev"><div class="what">退房，行李上車</div></div></li>
-    <li class="key" data-t="10:10"><div class="t">10:10</div><div class="ev"><div class="what">🛍️ あしびなー Outlet</div><div class="d">豊見城市豊崎 1-188，10:00–20:00，滿滿 2 小時</div><div class="acts"><a class="btn" data-map="沖縄アウトレットモールあしびなー">📍 地圖</a></div></div></li>
-    <li data-t="12:10"><div class="t">12:10</div><div class="ev"><div class="what">移動（約 10 分）</div></div></li>
-    <li class="key" data-t="12:20"><div class="t">12:20</div><div class="ev"><div class="what">🛍️ iias 沖繩豊崎</div><div class="d">豊見城市豊崎 3-35，商店 10:00–21:00，逛約 1 小時</div><div class="acts"><a class="btn" data-map="iias沖縄豊崎">📍 地圖</a></div></div></li>
-    <li class="key" data-t="13:20"><div class="t">13:20</div><div class="ev"><div class="what">🍽️ iias 午餐</div><div class="d">餐廳 11:00–23:00，約 50 分</div></div></li>
-    <li data-t="14:10"><div class="t">14:10</div><div class="ev"><div class="what">離開 iias</div><div class="badges"><span class="b warn">硬底線</span></div></div></li>
-    <li class="key" data-t="14:20"><div class="t">14:20</div><div class="ev"><div class="what">🚗 還車（座安 315-7）</div><div class="d">驗車約 10 分</div></div></li>
-    <li data-t="14:30"><div class="t">14:30</div><div class="ev"><div class="what">🚐 接駁車 → 機場</div></div></li>
-    <li class="key" data-t="14:55"><div class="t">14:55</div><div class="ev"><div class="what">✈️ 那霸機場</div><div class="d">起飛前 2 小時</div></div></li>
-    <li data-t="16:55"><div class="t">16:55</div><div class="ev"><div class="what">✈️ FD231 泰國亞航 起飛</div><div class="d">→ 17:30 抵達桃園 T1</div><div class="badges"><span class="b warn">櫃台起飛前 60 分關</span><span class="b">續飛曼谷，桃園下機</span></div></div></li>
+    <li data-t="08:00" data-map="琉球温泉 瀬長島ホテル"><div class="t">08:00</div><div class="ev"><div class="what">飯店早餐</div></div></li>
+    <li data-t="09:00" data-map="琉球温泉 瀬長島ホテル"><div class="t">09:00</div><div class="ev"><div class="what">♨️ 最後泡一次湯</div></div></li>
+    <li data-t="10:00" data-map="琉球温泉 瀬長島ホテル"><div class="t">10:00</div><div class="ev"><div class="what">退房，行李上車</div></div></li>
+    <li class="key" data-t="10:10" data-map="沖縄アウトレットモールあしびなー"><div class="t">10:10</div><div class="ev"><div class="what">🛍️ あしびなー Outlet</div><div class="d">豊見城市豊崎 1-188，10:00–20:00，滿滿 2 小時</div></div></li>
+    <li data-t="12:10" data-map="iias沖縄豊崎"><div class="t">12:10</div><div class="ev"><div class="what">→ iias（約 10 分）</div></div></li>
+    <li class="key" data-t="12:20" data-map="iias沖縄豊崎"><div class="t">12:20</div><div class="ev"><div class="what">🛍️ iias 沖繩豊崎</div><div class="d">豊見城市豊崎 3-35，商店 10:00–21:00，逛約 1 小時</div></div></li>
+    <li class="key" data-t="13:20" data-map="iias沖縄豊崎"><div class="t">13:20</div><div class="ev"><div class="what">🍽️ iias 午餐</div><div class="d">餐廳 11:00–23:00，約 50 分</div></div></li>
+    <li data-t="14:10" data-map="ROYALレンタカー 豊見城店 座安315-7"><div class="t">14:10</div><div class="ev"><div class="what">離開 iias → ROYAL</div><div class="badges"><span class="b warn">硬底線</span></div></div></li>
+    <li class="key" data-t="14:20" data-map="ROYALレンタカー 豊見城店 座安315-7"><div class="t">14:20</div><div class="ev"><div class="what">🚗 還車（座安 315-7）</div><div class="d">驗車約 10 分</div><div class="acts"><a class="btn" href="tel:0989875848">📞 098-987-5848</a></div></div></li>
+    <li data-t="14:30" data-map="那覇空港 国際線ターミナル"><div class="t">14:30</div><div class="ev"><div class="what">🚐 接駁車 → 機場</div></div></li>
+    <li class="key" data-t="14:55" data-map="那覇空港 国際線ターミナル"><div class="t">14:55</div><div class="ev"><div class="what">✈️ 那霸機場 國際線</div><div class="d">起飛前 2 小時</div></div></li>
+    <li data-t="16:55" data-map="那覇空港 国際線ターミナル"><div class="t">16:55</div><div class="ev"><div class="what">✈️ FD231 泰國亞航 起飛</div><div class="d">→ 17:30 抵達桃園 T1</div><div class="badges"><span class="b warn">櫃台起飛前 60 分關</span><span class="b">續飛曼谷，桃園下機</span></div></div></li>
   </ul>
 
   <ul class="tl" data-plan4-show="c" hidden>
-    <li data-t="09:00"><div class="t">09:00</div><div class="ev"><div class="what">退房，行李上車</div></div></li>
-    <li class="key" data-t="09:20"><div class="t">09:20</div><div class="ev"><div class="what">🐠 DMM かりゆし水族館</div><div class="d">在 iias 裡，09:00 就開（19:00 最後入館），18 歲以上 ¥2,400。走在大水槽玻璃上、企鵝／花園鰻／樹懶／水獺</div><div class="acts"><a class="btn" data-map="DMMかりゆし水族館">📍 地圖</a></div></div></li>
-    <li data-t="11:00"><div class="t">11:00</div><div class="ev"><div class="what">🛍️ iias 逛</div></div></li>
-    <li class="key" data-t="12:00"><div class="t">12:00</div><div class="ev"><div class="what">🍽️ iias 午餐</div></div></li>
-    <li data-t="12:50"><div class="t">12:50</div><div class="ev"><div class="what">🛍️ あしびなー Outlet（約 1 小時 10 分）</div></div></li>
-    <li data-t="14:10"><div class="t">14:10</div><div class="ev"><div class="what">離開</div><div class="badges"><span class="b warn">硬底線</span></div></div></li>
-    <li class="key" data-t="14:20"><div class="t">14:20</div><div class="ev"><div class="what">🚗 還車</div></div></li>
-    <li class="key" data-t="14:55"><div class="t">14:55</div><div class="ev"><div class="what">✈️ 那霸機場</div></div></li>
+    <li data-t="09:00" data-map="琉球温泉 瀬長島ホテル"><div class="t">09:00</div><div class="ev"><div class="what">退房，行李上車</div></div></li>
+    <li class="key" data-t="09:20" data-map="DMMかりゆし水族館"><div class="t">09:20</div><div class="ev"><div class="what">🐠 DMM かりゆし水族館</div><div class="d">在 iias 裡，09:00 就開（19:00 最後入館），18 歲以上 ¥2,400。走在大水槽玻璃上、企鵝／花園鰻／樹懶／水獺</div></div></li>
+    <li data-t="11:00" data-map="iias沖縄豊崎"><div class="t">11:00</div><div class="ev"><div class="what">🛍️ iias 逛</div></div></li>
+    <li class="key" data-t="12:00" data-map="iias沖縄豊崎"><div class="t">12:00</div><div class="ev"><div class="what">🍽️ iias 午餐</div></div></li>
+    <li data-t="12:50" data-map="沖縄アウトレットモールあしびなー"><div class="t">12:50</div><div class="ev"><div class="what">🛍️ あしびなー Outlet（約 1 小時 10 分）</div></div></li>
+    <li data-t="14:10" data-map="ROYALレンタカー 豊見城店 座安315-7"><div class="t">14:10</div><div class="ev"><div class="what">離開 → ROYAL</div><div class="badges"><span class="b warn">硬底線</span></div></div></li>
+    <li class="key" data-t="14:20" data-map="ROYALレンタカー 豊見城店 座安315-7"><div class="t">14:20</div><div class="ev"><div class="what">🚗 還車</div></div></li>
+    <li class="key" data-t="14:55" data-map="那覇空港 国際線ターミナル"><div class="t">14:55</div><div class="ev"><div class="what">✈️ 那霸機場 國際線</div></div></li>
   </ul>
 
   <h3>⏱️ 時間帳（從機場往回推）</h3>
@@ -531,6 +504,12 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
     var next=dark?'light':'dark'; root.setAttribute('data-theme',next); store.set('oki-theme',next);
   };
 
+  // one map button per timeline item
+  document.querySelectorAll('.tl li[data-map]').forEach(function(li){
+    var ev=li.querySelector('.ev'), m=document.createElement('a');
+    m.className='mapbtn'; m.setAttribute('data-map',li.getAttribute('data-map')); m.setAttribute('aria-label','Google 地圖：'+li.getAttribute('data-map'));
+    m.innerHTML='📍<span>地圖</span>'; ev.appendChild(m); li.removeAttribute('data-map');
+  });
   // map links
   document.querySelectorAll('[data-map]').forEach(function(a){
     a.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(a.getAttribute('data-map'));
