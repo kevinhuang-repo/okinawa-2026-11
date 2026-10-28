@@ -172,10 +172,13 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
 .sb-acts .btn{padding:5px 10px;font-size:13px}
 .sb-tel{font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums;user-select:all}
 .sb-visit{border:0;background:none;color:var(--ink-2);font-size:12px;cursor:pointer;font-family:inherit;padding:4px}
-.sb-want{margin-left:auto;display:inline-flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;border:1px solid var(--line);border-radius:8px;padding:4px 8px;background:var(--surface)}
+.sb-wants{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-2)}
+.sb-want{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:var(--ink);cursor:pointer;border:1px solid var(--line);border-radius:8px;padding:4px 8px;background:var(--surface)}
 .sb-want input{width:16px;height:16px;margin:0;accent-color:var(--coral)}
+.sb-want.on{background:var(--coral-soft);border-color:var(--coral);color:var(--coral);font-weight:600}
 .sb-card.want{border-color:var(--coral);box-shadow:0 0 0 1px var(--coral) inset}
-.sb-card.want .sb-want{background:var(--coral-soft);border-color:var(--coral);color:var(--coral);font-weight:600}
+.sb-sync{font-size:12px;color:var(--ink-2);margin-top:2px}
+.sb-sync.off{color:var(--warn)}
 </style>
 </head>
 <body>
@@ -493,6 +496,7 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
   <div class="sb-row" id="sbWant"></div>
 
   <div class="sb-count" id="sbCount"></div>
+  <div class="sb-sync" id="sbSync">連線中…</div>
   <div id="sbList"></div>
 
   <h3>已排除</h3>
@@ -503,7 +507,7 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
       <li>KEMURI 國際通店：Tabelog 標「營業狀態待確認」</li>
     </ul>
   </div>
-  <p class="theme">★ 是 Tabelog 評分；橘色標籤是資料不確定、要現場問的地方。「想去」和「去過」只存在這支手機。</p>
+  <p class="theme">★ 是 Tabelog 評分；橘色標籤是資料不確定、要現場問的地方。「想去」和「去過」會即時同步給小黃和齊齊。</p>
 </section>
 
 <!-- ========== 待辦 ========== -->
@@ -657,8 +661,11 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
   show(initial,false);
 })();
 </script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script>
 // せんべろ list：o/c = 週五開店/打烊（小時，跨夜 >24）
+// 想去／去過存在 Firebase Realtime Database（band-setlist 同一個專案）的 /okinawa-2026-11/senbero/<Tabelog id>：{w:{huang,qiqi}, v}
 (function(){
   var ZONES={1:'① ちとせ商店街大樓（松尾 2-10，市場正後方）',2:'② 松尾 2 丁目其他',3:'③ 牧志 3 丁目（平和通・浮島通）',4:'④ 國際通屋台村・壺屋'};
   var S=[
@@ -692,9 +699,23 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
   ];
   var TIMES=[['全部',null],['12:00',12],['14:00',14],['16:00',16],['18:00',18],['20:00',20],['22:00',22],['24:00',24],['01:00',25]];
   var ZCHIPS=[['全部',0],['① ちとせ大樓',1],['② 松尾',2],['③ 牧志3丁目',3],['④ 屋台村・壺屋',4]];
-  var zone=0, time=null, wantOnly=false, visited={}, want={};
-  try{visited=JSON.parse(localStorage.getItem('oki-senbero-visited')||'{}')}catch(e){visited={}}
-  try{want=JSON.parse(localStorage.getItem('oki-senbero-want')||'{}')}catch(e){want={}}
+  var WHO=[['huang','小黃'],['qiqi','齊齊']];
+  var WCHIPS=[['全部',''],['小黃想去','huang'],['齊齊想去','qiqi'],['兩人都想去','both']];
+  var zone=0, time=null, wantBy='', data={}, ref=null;
+
+  function wants(t,who){var d=data[t];return !!(d&&d.w&&d.w[who])}
+  function visited(t){var d=data[t];return !!(d&&d.v)}
+  function anyWant(t){return wants(t,'huang')||wants(t,'qiqi')}
+  function wantMatch(t,by){
+    if(!by) return true;
+    if(by==='both') return wants(t,'huang')&&wants(t,'qiqi');
+    return wants(t,by);
+  }
+  function setSync(ok,msg){var el=document.getElementById('sbSync');el.textContent=msg;el.classList.toggle('off',!ok)}
+  function write(path,val){
+    if(!ref){setSync(false,'⚠️ 還沒連上資料庫，這次勾選沒有存到');return}
+    ref.child(path).set(val?true:null).catch(function(){setSync(false,'⚠️ 存不上去，重新整理再試一次')});
+  }
 
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function chips(el,items,cur,fn){
@@ -709,20 +730,22 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
   function render(){
     chips(document.getElementById('sbZones'),ZCHIPS,zone,function(v){zone=v;render()});
     chips(document.getElementById('sbTimes'),TIMES,time,function(v){time=v;render()});
-    var nWant=S.filter(function(s){return want[s.t]}).length;
-    chips(document.getElementById('sbWant'),[['全部',false],['只看想去（'+nWant+'）',true]],wantOnly,function(v){wantOnly=v;render()});
-    var list=S.filter(function(s){return (!zone||s.z===zone)&&(time===null||(s.o<=time&&time<s.c))&&(!wantOnly||want[s.t])});
-    var label=(time===null?'':'，週五 '+TIMES.filter(function(x){return x[1]===time})[0][0]+' 還開著')+(wantOnly?'，只看想去':'');
+    var wc=WCHIPS.map(function(w){
+      return w[1]?[w[0]+'（'+S.filter(function(s){return wantMatch(s.t,w[1])}).length+'）',w[1]]:w;
+    });
+    chips(document.getElementById('sbWant'),wc,wantBy,function(v){wantBy=v;render()});
+    var list=S.filter(function(s){return (!zone||s.z===zone)&&(time===null||(s.o<=time&&time<s.c))&&wantMatch(s.t,wantBy)});
+    var label=(time===null?'':'，週五 '+TIMES.filter(function(x){return x[1]===time})[0][0]+' 還開著')+(wantBy?'，'+WCHIPS.filter(function(x){return x[1]===wantBy})[0][0]:'');
     document.getElementById('sbCount').textContent=list.length+' 家'+label;
     var out=document.getElementById('sbList'); out.innerHTML='';
-    if(!list.length){out.innerHTML='<p class="theme">'+(wantOnly&&!nWant?'還沒勾任何「想去」，在店家卡片右下角打勾就會出現在這裡。':'這個條件下沒有店，換個時間或區域看看。')+'</p>';return}
+    if(!list.length){out.innerHTML='<p class="theme">'+(wantBy?'這個條件下還沒有勾「想去」的店，在店家卡片右下角打勾就會出現在這裡。':'這個條件下沒有店，換個時間或區域看看。')+'</p>';return}
     [1,2,3,4].forEach(function(z){
       var items=list.filter(function(s){return s.z===z});
       if(!items.length) return;
       var h=document.createElement('div'); h.className='sb-zone'; h.textContent=ZONES[z]; out.appendChild(h);
       items.forEach(function(s){
         var c=document.createElement('div');
-        c.className='sb-card'+(want[s.t]?' want':'')+(visited[s.t]?' visited':'');
+        c.className='sb-card'+(anyWant(s.t)?' want':'')+(visited(s.t)?' visited':'');
         c.innerHTML='<div class="sb-top"><b>'+esc(s.n)+'</b><span class="sb-r">★'+s.r.toFixed(2)+'</span></div>'+
           '<div class="sb-set">'+esc(s.set)+'</div>'+
           '<div class="sb-meta"><span>週五 <span class="h">'+s.h+'</span></span><span>公休 '+esc(s.off)+'</span></div>'+
@@ -732,24 +755,40 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
             '<a class="btn primary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(s.n+' '+s.a)+'">📍 地圖</a>'+
             '<a class="btn" target="_blank" rel="noopener" href="https://tabelog.com/tw/okinawa/A4701/A470101/'+s.t+'/">Tabelog</a>'+
             (s.tel?'<a class="sb-tel" href="tel:'+s.tel.replace(/-/g,'')+'">'+s.tel+'</a>':'')+
-            '<label class="sb-want"><input type="checkbox" id="want-'+s.t+'"'+(want[s.t]?' checked':'')+'>想去</label>'+
-            '<button type="button" class="sb-visit">'+(visited[s.t]?'✓ 去過':'標記去過')+'</button>'+
+            '<span class="sb-wants">想去'+
+              WHO.map(function(w){var on=wants(s.t,w[0]);return '<label class="sb-want'+(on?' on':'')+'"><input type="checkbox" id="want-'+s.t+'-'+w[0]+'" data-who="'+w[0]+'"'+(on?' checked':'')+'>'+w[1]+'</label>'}).join('')+
+            '</span>'+
+            '<button type="button" class="sb-visit">'+(visited(s.t)?'✓ 去過':'標記去過')+'</button>'+
           '</div>';
-        c.querySelector('.sb-want input').onchange=function(){
-          if(this.checked) want[s.t]=true; else delete want[s.t];
-          try{localStorage.setItem('oki-senbero-want',JSON.stringify(want))}catch(e){}
-          render();
-        };
-        c.querySelector('.sb-visit').onclick=function(){
-          visited[s.t]=!visited[s.t];
-          try{localStorage.setItem('oki-senbero-visited',JSON.stringify(visited))}catch(e){}
-          render();
-        };
+        c.querySelectorAll('.sb-want input').forEach(function(box){
+          box.onchange=function(){write(s.t+'/w/'+box.dataset.who,box.checked)};
+        });
+        c.querySelector('.sb-visit').onclick=function(){write(s.t+'/v',!visited(s.t))};
         out.appendChild(c);
       });
     });
   }
   render();
+
+  try{
+    firebase.initializeApp({
+      databaseURL:'https://band-setlist-11b7c-default-rtdb.asia-southeast1.firebasedatabase.app',
+      projectId:'band-setlist-11b7c'
+    });
+    var db=firebase.database();
+    db.ref('okinawa-2026-11/senbero').on('value',function(snap){
+      ref=snap.ref; data=snap.val()||{};
+      setSync(true,'✓ 已同步，小黃和齊齊看到的是同一份');
+      render();
+    },function(){
+      setSync(false,'⚠️ 資料庫拒絕讀取，勾選不會同步（要在 Firebase 加規則）');
+    });
+    db.ref('.info/connected').on('value',function(s){
+      if(ref) setSync(!!s.val(),s.val()?'✓ 已同步，小黃和齊齊看到的是同一份':'⚠️ 離線中，勾選會在連上後送出');
+    });
+  }catch(e){
+    setSync(false,'⚠️ 連不上資料庫，勾選不會同步');
+  }
 })();
 </script>
 </body>
