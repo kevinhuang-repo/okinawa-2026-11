@@ -171,7 +171,11 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
 .sb-acts{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
 .sb-acts .btn{padding:5px 10px;font-size:13px}
 .sb-tel{font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums;user-select:all}
-.sb-visit{margin-left:auto;border:0;background:none;color:var(--ink-2);font-size:12px;cursor:pointer;font-family:inherit;padding:4px}
+.sb-visit{border:0;background:none;color:var(--ink-2);font-size:12px;cursor:pointer;font-family:inherit;padding:4px}
+.sb-want{margin-left:auto;display:inline-flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;border:1px solid var(--line);border-radius:8px;padding:4px 8px;background:var(--surface)}
+.sb-want input{width:16px;height:16px;margin:0;accent-color:var(--coral)}
+.sb-card.want{border-color:var(--coral);box-shadow:0 0 0 1px var(--coral) inset}
+.sb-card.want .sb-want{background:var(--coral-soft);border-color:var(--coral);color:var(--coral);font-weight:600}
 </style>
 </head>
 <body>
@@ -485,6 +489,8 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
   <div class="sb-row" id="sbZones"></div>
   <div class="sb-lbl">週五幾點還開著</div>
   <div class="sb-row" id="sbTimes"></div>
+  <div class="sb-lbl">清單</div>
+  <div class="sb-row" id="sbWant"></div>
 
   <div class="sb-count" id="sbCount"></div>
   <div id="sbList"></div>
@@ -497,7 +503,7 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
       <li>KEMURI 國際通店：Tabelog 標「營業狀態待確認」</li>
     </ul>
   </div>
-  <p class="theme">★ 是 Tabelog 評分；橘色標籤是資料不確定、要現場問的地方。「去過」只存在這支手機。</p>
+  <p class="theme">★ 是 Tabelog 評分；橘色標籤是資料不確定、要現場問的地方。「想去」和「去過」只存在這支手機。</p>
 </section>
 
 <!-- ========== 待辦 ========== -->
@@ -686,8 +692,9 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
   ];
   var TIMES=[['全部',null],['12:00',12],['14:00',14],['16:00',16],['18:00',18],['20:00',20],['22:00',22],['24:00',24],['01:00',25]];
   var ZCHIPS=[['全部',0],['① ちとせ大樓',1],['② 松尾',2],['③ 牧志3丁目',3],['④ 屋台村・壺屋',4]];
-  var zone=0, time=null, visited={};
+  var zone=0, time=null, wantOnly=false, visited={}, want={};
   try{visited=JSON.parse(localStorage.getItem('oki-senbero-visited')||'{}')}catch(e){visited={}}
+  try{want=JSON.parse(localStorage.getItem('oki-senbero-want')||'{}')}catch(e){want={}}
 
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function chips(el,items,cur,fn){
@@ -702,18 +709,20 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
   function render(){
     chips(document.getElementById('sbZones'),ZCHIPS,zone,function(v){zone=v;render()});
     chips(document.getElementById('sbTimes'),TIMES,time,function(v){time=v;render()});
-    var list=S.filter(function(s){return (!zone||s.z===zone)&&(time===null||(s.o<=time&&time<s.c))});
-    var label=time===null?'':'，週五 '+TIMES.filter(function(x){return x[1]===time})[0][0]+' 還開著';
+    var nWant=S.filter(function(s){return want[s.t]}).length;
+    chips(document.getElementById('sbWant'),[['全部',false],['只看想去（'+nWant+'）',true]],wantOnly,function(v){wantOnly=v;render()});
+    var list=S.filter(function(s){return (!zone||s.z===zone)&&(time===null||(s.o<=time&&time<s.c))&&(!wantOnly||want[s.t])});
+    var label=(time===null?'':'，週五 '+TIMES.filter(function(x){return x[1]===time})[0][0]+' 還開著')+(wantOnly?'，只看想去':'');
     document.getElementById('sbCount').textContent=list.length+' 家'+label;
     var out=document.getElementById('sbList'); out.innerHTML='';
-    if(!list.length){out.innerHTML='<p class="theme">這個時段這一區沒有開著的店，換個時間或區域看看。</p>';return}
+    if(!list.length){out.innerHTML='<p class="theme">'+(wantOnly&&!nWant?'還沒勾任何「想去」，在店家卡片右下角打勾就會出現在這裡。':'這個條件下沒有店，換個時間或區域看看。')+'</p>';return}
     [1,2,3,4].forEach(function(z){
       var items=list.filter(function(s){return s.z===z});
       if(!items.length) return;
       var h=document.createElement('div'); h.className='sb-zone'; h.textContent=ZONES[z]; out.appendChild(h);
       items.forEach(function(s){
         var c=document.createElement('div');
-        c.className='sb-card'+(visited[s.t]?' visited':'');
+        c.className='sb-card'+(want[s.t]?' want':'')+(visited[s.t]?' visited':'');
         c.innerHTML='<div class="sb-top"><b>'+esc(s.n)+'</b><span class="sb-r">★'+s.r.toFixed(2)+'</span></div>'+
           '<div class="sb-set">'+esc(s.set)+'</div>'+
           '<div class="sb-meta"><span>週五 <span class="h">'+s.h+'</span></span><span>公休 '+esc(s.off)+'</span></div>'+
@@ -723,8 +732,14 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
             '<a class="btn primary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(s.n+' '+s.a)+'">📍 地圖</a>'+
             '<a class="btn" target="_blank" rel="noopener" href="https://tabelog.com/tw/okinawa/A4701/A470101/'+s.t+'/">Tabelog</a>'+
             (s.tel?'<a class="sb-tel" href="tel:'+s.tel.replace(/-/g,'')+'">'+s.tel+'</a>':'')+
+            '<label class="sb-want"><input type="checkbox" id="want-'+s.t+'"'+(want[s.t]?' checked':'')+'>想去</label>'+
             '<button type="button" class="sb-visit">'+(visited[s.t]?'✓ 去過':'標記去過')+'</button>'+
           '</div>';
+        c.querySelector('.sb-want input').onchange=function(){
+          if(this.checked) want[s.t]=true; else delete want[s.t];
+          try{localStorage.setItem('oki-senbero-want',JSON.stringify(want))}catch(e){}
+          render();
+        };
         c.querySelector('.sb-visit').onclick=function(){
           visited[s.t]=!visited[s.t];
           try{localStorage.setItem('oki-senbero-visited',JSON.stringify(visited))}catch(e){}
