@@ -149,6 +149,29 @@ ol.qs li{margin:4px 0}
 .dcard .dd{font-size:13px;color:var(--ink-2)}
 footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40px}
 @media (max-width:380px){.overview-days{grid-template-columns:1fr}.tl:before{left:52px}.tl li{grid-template-columns:44px 1fr}.tl li:before{left:48px}}
+
+/* senbero */
+.sb-lbl{font-size:12px;color:var(--ink-2);margin:10px 0 4px}
+.sb-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.sb-row::-webkit-scrollbar{display:none}
+.sb-chip{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:13px;cursor:pointer;font-family:inherit}
+.sb-chip[aria-pressed="true"]{background:var(--coral);border-color:var(--coral);color:#fff}
+.sb-count{font-size:13px;color:var(--ink-2);margin:14px 0 0;font-variant-numeric:tabular-nums}
+.sb-zone{font-size:13px;font-weight:700;color:var(--sea);margin:18px 0 6px}
+.sb-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;box-shadow:var(--shadow)}
+.sb-card.visited{opacity:.5}
+.sb-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.sb-top b{min-width:0}
+.sb-r{flex:0 0 auto;font-size:13px;color:var(--coral);font-variant-numeric:tabular-nums}
+.sb-set{font-size:14px;margin-top:2px}
+.sb-meta{display:flex;flex-wrap:wrap;gap:2px 12px;font-size:13px;color:var(--ink-2);margin-top:2px}
+.sb-meta .h{color:var(--ink);font-variant-numeric:tabular-nums;font-weight:600}
+.sb-note{font-size:13px;color:var(--ink-2);margin-top:2px}
+.sb-card .b.warn{white-space:normal;display:inline-block;margin-top:4px}
+.sb-acts{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
+.sb-acts .btn{padding:5px 10px;font-size:13px}
+.sb-tel{font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums;user-select:all}
+.sb-visit{margin-left:auto;border:0;background:none;color:var(--ink-2);font-size:12px;cursor:pointer;font-family:inherit;padding:4px}
 </style>
 </head>
 <body>
@@ -173,6 +196,7 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
     <button class="tab" role="tab" data-tab="d2">Day 2<small>11/6</small></button>
     <button class="tab" role="tab" data-tab="d3">Day 3<small>11/7</small></button>
     <button class="tab" role="tab" data-tab="d4">Day 4<small>11/8</small></button>
+    <button class="tab" role="tab" data-tab="senbero">せんべろ居酒屋</button>
     <button class="tab" role="tab" data-tab="todo">待辦<small id="todoCount"></small></button>
   </div>
 </nav>
@@ -451,6 +475,31 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
   <div class="note tip" data-plan4-show="c" hidden><p>💡 水族館 09:00 就開，剛好填掉商店還沒開的空檔，室內又不用移動。</p></div>
 </section>
 
+<!-- ========== せんべろ ========== -->
+<section class="panel" id="p-senbero">
+  <h2>🍶 せんべろ居酒屋</h2>
+  <p class="theme">第一牧志公設市場周邊 27 家。營業時間以 11/6（五）為準，2026/10/28 逐家在 Tabelog 核對。</p>
+  <div class="note tip"><p>💡 Day 2 下午走浮島通往飯店方向會經過 ③ 牧志 3 丁目，順路可以先喝一攤。</p></div>
+
+  <div class="sb-lbl">區域</div>
+  <div class="sb-row" id="sbZones"></div>
+  <div class="sb-lbl">週五幾點還開著</div>
+  <div class="sb-row" id="sbTimes"></div>
+
+  <div class="sb-count" id="sbCount"></div>
+  <div id="sbList"></div>
+
+  <h3>已排除</h3>
+  <div class="card">
+    <ul style="margin:0;padding-left:20px;font-size:14px">
+      <li>串ナカマ：せんべろ扭蛋 2026/4/5 已結束</li>
+      <li>Si nada（シナーダ）：Tabelog 標「營業狀態待確認」</li>
+      <li>KEMURI 國際通店：Tabelog 標「營業狀態待確認」</li>
+    </ul>
+  </div>
+  <p class="theme">★ 是 Tabelog 評分；橘色標籤是資料不確定、要現場問的地方。「去過」只存在這支手機。</p>
+</section>
+
 <!-- ========== 待辦 ========== -->
 <section class="panel" id="p-todo">
   <h2>✅ 出發前待辦</h2>
@@ -491,7 +540,7 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
 </section>
 
 </main>
-<footer>v12・2026/10/20・餐廳營業時間可能變動，出發前一週再確認</footer>
+<footer>v13・2026/10/28・餐廳營業時間可能變動，出發前一週再確認</footer>
 
 <script>
 (function(){
@@ -600,6 +649,92 @@ footer{color:var(--ink-2);font-size:12px;text-align:center;padding:24px 16px 40p
   if(map[t]) initial=map[t];
   if(h&&document.getElementById('p-'+h)) initial=h;
   show(initial,false);
+})();
+</script>
+<script>
+// せんべろ list：o/c = 週五開店/打烊（小時，跨夜 >24）
+(function(){
+  var ZONES={1:'① ちとせ商店街大樓（松尾 2-10，市場正後方）',2:'② 松尾 2 丁目其他',3:'③ 牧志 3 丁目（平和通・浮島通）',4:'④ 國際通屋台村・壺屋'};
+  var S=[
+    {z:1,n:'大衆串揚酒場 足立屋',set:'¥1,000 3 杯＋炸串 4 支或燉內臟',o:10,c:21,h:'10:00–21:00',off:'週日',r:3.49,t:'47014934',a:'那覇市松尾2-10-20',tel:'098-869-8040',note:'せんべろ始祖。只收現金'},
+    {z:1,n:'天国酒場',set:'¥1,100–1,200 4 杯，或 3 杯＋1 品，可續',o:12,c:24,h:'12:00–24:00',off:'無休',r:3.43,t:'47021905',a:'那覇市松尾2-10-20'},
+    {z:1,n:'大衆立呑酒場 垂れ屋',set:'¥1,400 3 杯＋1 品，可續',o:15,c:24,h:'15:00–24:00',off:'無休',r:3.47,t:'47023924',a:'那覇市松尾2-10-20'},
+    {z:1,n:'米仙',set:'¥1,400 3 杯＋1 品／¥1,500 3 杯＋壽司',o:17,c:23,h:'17:00–23:00',off:'週三',r:3.47,t:'47024441',a:'那覇市松尾2-10-20',tel:'098-917-4711',note:'只有吧台，開店就滿。垂れ屋的姊妹店'},
+    {z:1,n:'角打ち酒場 足立屋',set:'¥1,000 4 杯，或 3 杯＋1 品',o:17,c:25,h:'17:00–01:00',off:'週一',r:3.43,t:'47016425',a:'那覇市松尾2-10-20 ちとせ商店街ビル',tel:'098-868-8250',note:'只收現金。這棟開最晚的'},
+    {z:1,n:'焼肉・ホルモン 名嘉真',set:'3 杯＋1 品',o:16,c:23,h:'16:00–23:00',off:'不定休',r:3.46,t:'47025600',a:'那覇市松尾2-10-20',tel:'098-975-5252',warn:'Tabelog 頁面沒寫せんべろ，套餐是 2022 年資料'},
+    {z:2,n:'那覇哀歌',set:'4べろ：4 個代幣換酒或菜',o:16,c:23.5,h:'16:00–23:30',off:'無休',r:3.41,t:'47028412',a:'那覇市松尾2-11-15',tel:'098-863-7070',note:'台灣風的店'},
+    {z:2,n:'皆様酒場☆立呑み 那覇ゴールデン',set:'4べろ ¥1,400–1,600',o:16,c:23.5,h:'16:00–23:30',off:'—',r:3.29,t:'47024995',a:'那覇市松尾2-11-16',tel:'098-943-6454',warn:'Tabelog 沒寫營業時間，這是 2026/1 文章的資料'},
+    {z:2,n:'川かみ鮮魚（魚坊）',set:'約 ¥1,000 3 杯＋生魚片＋1 品，限時 90 分',o:17,c:22.25,h:'17:00–22:15',off:'無休',r:3.19,t:'47021708',a:'那覇市松尾2-11-18',note:'魚販開的。隔壁魚坊 ★3.48 同一家'},
+    {z:2,n:'あかつのや',set:'¥1,000 3 杯＋1 品／¥1,400 任選 4 樣',o:16,c:22,h:'16:00–22:00',off:'週一',r:3.42,t:'47030605',a:'那覇市松尾2-9-1',tel:'098-923-0111'},
+    {z:2,n:'琉球料理 亜砂呂',set:'¥1,400 おでんべろ 2 杯＋關東煮',o:9.5,c:22,h:'09:30–22:00',off:'週日',r:3.43,t:'47004173',a:'那覇市松尾2-9-7',tel:'098-861-8752'},
+    {z:2,n:'魚友',set:'¥1,000–1,200 啤酒＋生魚片',o:10,c:21,h:'10:00–21:00',off:'週三、週日',r:3.42,t:'47019475',a:'那覇市松尾2-9-15',tel:'098-866-5442',note:'魚販門口站著喝'},
+    {z:2,n:'蛸屋本店 那覇松尾店',set:'約 ¥1,000 2 杯＋章魚燒等',o:13.5,c:24,h:'13:30–24:00',off:'每月第 2 個週一',r:3.45,t:'47015126',a:'那覇市松尾2-22-17',tel:'098-865-5535'},
+    {z:2,n:'らう次郎',set:'¥1,200 3 杯＋小菜 2 道，先付',o:12,c:21.5,h:'12:00–21:30',off:'週二',r:3.43,t:'47020875',a:'那覇市松尾2-24-21',tel:'098-960-3445'},
+    {z:3,n:'しもじ屋',set:'¥1,400 3 杯＋2 品',o:15,c:23,h:'15:00–23:00',off:'不定休',r:3.28,t:'47021534',a:'那覇市牧志3-4-1'},
+    {z:3,n:'でんすけ商店 サンライズ',set:'¥1,300 3 杯＋1 品',o:15,c:28,h:'15:00–04:00',off:'無休',r:3.25,t:'47017331',a:'那覇市牧志3-4-8',tel:'098-917-4477',warn:'有評論說せんべろ只到平日 18:00 前，晚上去先問'},
+    {z:3,n:'大衆酒場 天しーさー',set:'¥1,000 3 杯＋炸串 10 支或關東煮 7 品',o:14,c:22,h:'14:00–22:00',off:'週二',r:3.44,t:'47017471',a:'那覇市牧志3-5-2',tel:'098-867-1900',note:'這區份量最多'},
+    {z:3,n:'お食事処 うさぎや',set:'¥1,000 3 杯＋1 品',o:8,c:24,h:'08:00–24:00',off:'無休',r:3.20,t:'47032328',a:'那覇市牧志3-5-2',tel:'098-963-4083'},
+    {z:3,n:'蛸屋のカレー屋さん',set:'¥500 咖哩收尾套餐',o:12,c:22,h:'12:00–22:00',off:'週一、週二',r:3.25,t:'47028467',a:'那覇市牧志3-5-5',tel:'098-943-6678',warn:'Tabelog 上沒看到せんべろ，適合最後吃咖哩'},
+    {z:3,n:'せんべろしゃぶしゃぶ TRITON',set:'¥1,200 2 杯＋國產豬涮涮鍋',o:17,c:25,h:'17:00–01:00',off:'無休',r:3.37,t:'47032149',a:'那覇市牧志3-5-10',tel:'070-9235-3172',note:'賣完會提早收'},
+    {z:3,n:'あるべろぐらんで 那覇平和通り店',set:'¥1,200 代幣換酒或菜',o:13,c:22.5,h:'13:00–22:30',off:'週四',r:3.13,t:'47027039',a:'那覇市牧志3-2-43',tel:'098-943-5955',note:'せんべろ只收現金。店裡兼賣衣服'},
+    {z:3,n:'パーラー こうちゃん タコス・タコス',set:'¥1,500 2 杯＋塔可＋沙拉＋香腸',o:13,c:21.25,h:'13:00–21:15',off:'週二、週三',r:3.28,t:'47019173',a:'那覇市牧志3-4-8',tel:'098-868-6858',note:'2026/9 評論：以前 ¥1,000，漲價了'},
+    {z:3,n:'餃子の店 華',set:'2 杯＋煎餃或包子',o:14,c:26,h:'14:00–02:00',off:'週一',r:3.37,t:'47024064',a:'那覇市牧志3-4-6',tel:'070-5414-7766',note:'14 點開到 2 點，最好排的一家'},
+    {z:3,n:'アグーとんかつ コション 浮島通り店',set:'かつベロ：3 杯＋炸豬排 3 種',o:11,c:23,h:'11:00–23:00',off:'—',r:3.44,t:'47022342',a:'那覇市牧志3-3-21',tel:'098-988-3435',note:'不能訂位'},
+    {z:3,n:'串カツ&ハイボール なか居',set:'¥1,000 3 杯＋1 品',o:16,c:26,h:'16:00–02:00',off:'週二',r:3.17,t:'47020677',a:'那覇市牧志3-1-1',note:'只收現金。有路邊座位'},
+    {z:4,n:'せんべろ風土',set:'有せんべろ',o:11,c:24,h:'11:00–24:00',off:'—',r:3.01,t:'47023466',a:'那覇市牧志3-11-17 国際通り屋台村',tel:'080-5278-3408',warn:'Tabelog 只有 2 則評論，套餐內容沒查到'},
+    {z:4,n:'三代目ちょい呑み酒場 繋ぎ屋',set:'¥1,200 3 杯＋1 品＋小菜',o:11,c:26,h:'11:00–02:00',off:'—',r:3.29,t:'47033124',a:'那覇市壺屋1-1-1',note:'平和通走到底，壺屋燒物通入口'}
+  ];
+  var TIMES=[['全部',null],['12:00',12],['14:00',14],['16:00',16],['18:00',18],['20:00',20],['22:00',22],['24:00',24],['01:00',25]];
+  var ZCHIPS=[['全部',0],['① ちとせ大樓',1],['② 松尾',2],['③ 牧志3丁目',3],['④ 屋台村・壺屋',4]];
+  var zone=0, time=null, visited={};
+  try{visited=JSON.parse(localStorage.getItem('oki-senbero-visited')||'{}')}catch(e){visited={}}
+
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function chips(el,items,cur,fn){
+    el.innerHTML='';
+    items.forEach(function(it){
+      var b=document.createElement('button');
+      b.type='button'; b.className='sb-chip'; b.textContent=it[0];
+      b.setAttribute('aria-pressed',it[1]===cur?'true':'false');
+      b.onclick=function(){fn(it[1])}; el.appendChild(b);
+    });
+  }
+  function render(){
+    chips(document.getElementById('sbZones'),ZCHIPS,zone,function(v){zone=v;render()});
+    chips(document.getElementById('sbTimes'),TIMES,time,function(v){time=v;render()});
+    var list=S.filter(function(s){return (!zone||s.z===zone)&&(time===null||(s.o<=time&&time<s.c))});
+    var label=time===null?'':'，週五 '+TIMES.filter(function(x){return x[1]===time})[0][0]+' 還開著';
+    document.getElementById('sbCount').textContent=list.length+' 家'+label;
+    var out=document.getElementById('sbList'); out.innerHTML='';
+    if(!list.length){out.innerHTML='<p class="theme">這個時段這一區沒有開著的店，換個時間或區域看看。</p>';return}
+    [1,2,3,4].forEach(function(z){
+      var items=list.filter(function(s){return s.z===z});
+      if(!items.length) return;
+      var h=document.createElement('div'); h.className='sb-zone'; h.textContent=ZONES[z]; out.appendChild(h);
+      items.forEach(function(s){
+        var c=document.createElement('div');
+        c.className='sb-card'+(visited[s.t]?' visited':'');
+        c.innerHTML='<div class="sb-top"><b>'+esc(s.n)+'</b><span class="sb-r">★'+s.r.toFixed(2)+'</span></div>'+
+          '<div class="sb-set">'+esc(s.set)+'</div>'+
+          '<div class="sb-meta"><span>週五 <span class="h">'+s.h+'</span></span><span>公休 '+esc(s.off)+'</span></div>'+
+          (s.note?'<div class="sb-note">'+esc(s.note)+'</div>':'')+
+          (s.warn?'<span class="b warn">'+esc(s.warn)+'</span>':'')+
+          '<div class="sb-acts">'+
+            '<a class="btn primary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(s.n+' '+s.a)+'">📍 地圖</a>'+
+            '<a class="btn" target="_blank" rel="noopener" href="https://tabelog.com/tw/okinawa/A4701/A470101/'+s.t+'/">Tabelog</a>'+
+            (s.tel?'<a class="sb-tel" href="tel:'+s.tel.replace(/-/g,'')+'">'+s.tel+'</a>':'')+
+            '<button type="button" class="sb-visit">'+(visited[s.t]?'✓ 去過':'標記去過')+'</button>'+
+          '</div>';
+        c.querySelector('.sb-visit').onclick=function(){
+          visited[s.t]=!visited[s.t];
+          try{localStorage.setItem('oki-senbero-visited',JSON.stringify(visited))}catch(e){}
+          render();
+        };
+        out.appendChild(c);
+      });
+    });
+  }
+  render();
 })();
 </script>
 </body>
